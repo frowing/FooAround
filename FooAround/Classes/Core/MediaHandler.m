@@ -7,6 +7,7 @@
 //
 
 #import "MediaHandler.h"
+#import "MediaParser.h"
 
 #define INSTAGRAM_CLIENT_ID         @"425e20d41ebe4ec0a2e54bc54b7591c4"
 #define INSTAGRAM_CLIENT_ID_KEY     @"client_id"
@@ -78,7 +79,10 @@
 	[dataReceived release];
 #endif 
   
-  [self.delegate media:nil withResult:Success];
+  MediaParser *parser = [[[MediaParser alloc]init] autorelease];
+  NSArray *media = [parser mediaObjectsInData:result];
+  
+  [self.delegate media:media withResult:Success];
 }
 
 - (void)connection:(HttpConnection*)connection

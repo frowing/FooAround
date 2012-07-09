@@ -11,14 +11,14 @@
 @implementation MediaObject
 
 @synthesize ident = ident_;
-@synthesize name = name_;
+@synthesize text = text_;
 @synthesize thumbnailURL = thumbnailURL_;
 @synthesize lowResURL = lowResURL_;
 @synthesize standardURL = standardURL_;
 
 - (void)dealloc {
   [ident_ release];
-  [name_ release];
+  [text_ release];
   [thumbnailURL_ release];
   [lowResURL_ release];
   [standardURL_ release];
