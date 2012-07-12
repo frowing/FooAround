@@ -33,8 +33,8 @@
   self.window.rootViewController = self.viewController;
   //https://api.instagram.com/v1/media/search?lat=40.62725620&lng=-4.00858680%20&client_id=425e20d41ebe4ec0a2e54bc54b7591c4
   
-  self.mediaHandler = [[[MediaHandler alloc]initWithDelegate:self]autorelease];
-  [self.mediaHandler mediaForLocation:CLLocationCoordinate2DMake(40.62725620, -4.00858680)];
+  //self.mediaHandler = [[[MediaHandler alloc]initWithDelegate:self]autorelease];
+  //[self.mediaHandler mediaForLocation:CLLocationCoordinate2DMake(40.62725620, -4.00858680)];
 
   [self.window makeKeyAndVisible];
   return YES;
