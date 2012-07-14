@@ -41,9 +41,12 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  
   self.mediaHandler = [[[MediaHandler alloc]initWithDelegate:self]autorelease];
   self.geocoder = [[CLGeocoder alloc]init];
-  
+}
+
+- (void)viewWillAppear:(BOOL)animated {
   if ([CLLocationManager locationServicesEnabled]) {
     locationManager_ = [[CLLocationManager alloc]init];
     self.locationManager.delegate = self;
@@ -74,7 +77,9 @@
   ChoosePlaceViewController *cpvc = [[ChoosePlaceViewController alloc]init];
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
     [self presentModalViewController:cpvc animated:YES];
-  } else {
+  } 
+  else {
+    cpvc.view.frame = CGRectMake(0,0, 320, 460); 
     popover_ = [[UIPopoverController alloc]initWithContentViewController:cpvc];
     self.popover.popoverContentSize = CGSizeMake(320, 460);
     [self.popover presentPopoverFromRect:self.placeButton.frame 

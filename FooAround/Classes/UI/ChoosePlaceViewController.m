@@ -48,16 +48,9 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-
   self.view.autoresizingMask = 
   UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-  
-  NSLog(@"%@",NSStringFromCGRect(self.view.frame));
-  
   self.view.backgroundColor = [UIColor whiteColor];
-  [self setUpToolbar];
-  
-  NSLog(@"%@",NSStringFromCGRect(self.toolbar.frame));  
 }
 
 - (void)viewDidUnload
@@ -69,6 +62,10 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+  [self setUpToolbar];
 }
 
 #pragma mark -
