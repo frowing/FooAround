@@ -11,12 +11,11 @@
 #import "MediaHandler.h"
 
 @interface ViewController : UIViewController
-<GridViewControllerDelegate,
+<CLLocationManagerDelegate, 
+GridViewControllerDelegate,
 MediaHandlerDelegate>
 
 @property(nonatomic,retain)IBOutlet UIButton *placeButton;
-@property(nonatomic,retain)MediaHandler *mediaHandler;
-@property(nonatomic,retain)GridViewController *gridViewController;
 
 - (IBAction)placeButtonPressed:(id)sender;
 

@@ -149,9 +149,15 @@
     ThumbnailViewController *thumbnailViewController = nil;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-      thumbnailViewController = [[[ThumbnailViewController alloc] initWithNibName:@"ThumbnailViewController_iPhone" bundle:nil] autorelease];
+      thumbnailViewController = 
+      [[[ThumbnailViewController alloc] initWithNibName:@"ThumbnailViewController_iPhone" 
+                                                 bundle:nil] 
+       autorelease];
     } else {
-      thumbnailViewController = [[[ThumbnailViewController alloc] initWithNibName:@"ThumbnailViewController_iPad" bundle:nil] autorelease];
+      thumbnailViewController = 
+      [[[ThumbnailViewController alloc] initWithNibName:@"ThumbnailViewController_iPad" 
+                                                 bundle:nil] 
+       autorelease];
     }
     
     thumbnailViewController.mediaObject = (MediaObject*)element;

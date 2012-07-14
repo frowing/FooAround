@@ -56,6 +56,8 @@
                               forKey:INSTAGRAM_CLIENT_ID_KEY];
   [parameters setObject:latString forKey:INSTAGRAM_LAT_KEY];
   [parameters setObject:lngString forKey:INSTAGRAM_LONG_KEY];
+  [parameters setObject:@"5000" forKey:@"distance"];
+  [parameters setObject:@"20" forKey:@"count"];
   
   [self.connection requestUrl:INSTAGRAM_MEDIA_SEARCH_URL 
                        params:parameters

@@ -31,6 +31,8 @@
 		0FF1EDF215AF59AA00B97647 /* GridViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF1EDF115AF59AA00B97647 /* GridViewController_iPhone.xib */; };
 		0FF1EDF415AF59F200B97647 /* ThumbnailViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF1EDF315AF59F200B97647 /* ThumbnailViewController_iPhone.xib */; };
 		0FF1EDF615AF59FE00B97647 /* ThumbnailViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF1EDF515AF59FD00B97647 /* ThumbnailViewController_iPad.xib */; };
+		0FF1EDF815AF9D9000B97647 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0FF1EDF715AF9D9000B97647 /* Localizable.strings */; };
+		0FF1EE0815B0DE8C00B97647 /* ChoosePlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF1EE0715B0DE8C00B97647 /* ChoosePlaceViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +74,9 @@
 		0FF1EDF115AF59AA00B97647 /* GridViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GridViewController_iPhone.xib; sourceTree = "<group>"; };
 		0FF1EDF315AF59F200B97647 /* ThumbnailViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThumbnailViewController_iPhone.xib; sourceTree = "<group>"; };
 		0FF1EDF515AF59FD00B97647 /* ThumbnailViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThumbnailViewController_iPad.xib; sourceTree = "<group>"; };
+		0FF1EDF715AF9D9000B97647 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		0FF1EE0615B0DE8C00B97647 /* ChoosePlaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoosePlaceViewController.h; sourceTree = "<group>"; };
+		0FF1EE0715B0DE8C00B97647 /* ChoosePlaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoosePlaceViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,9 +84,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FD5D3F815AAE08800D7A4C8 /* CoreLocation.framework in Frameworks */,
 				0F87A46B15AE354600F86E9A /* QuartzCore.framework in Frameworks */,
 				0FD5D40D15AAEC8700D7A4C8 /* SystemConfiguration.framework in Frameworks */,
-				0FD5D3F815AAE08800D7A4C8 /* CoreLocation.framework in Frameworks */,
 				0FA6A50715A8E13100BAE351 /* UIKit.framework in Frameworks */,
 				0FA6A50915A8E13100BAE351 /* Foundation.framework in Frameworks */,
 				0FA6A50B15A8E13100BAE351 /* CoreGraphics.framework in Frameworks */,
@@ -148,6 +153,7 @@
 				0FA6A50F15A8E13100BAE351 /* InfoPlist.strings */,
 				0FA6A51215A8E13100BAE351 /* main.m */,
 				0FA6A51415A8E13100BAE351 /* FooAround-Prefix.pch */,
+				0FF1EDF715AF9D9000B97647 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -195,6 +201,8 @@
 				0FF1EDF315AF59F200B97647 /* ThumbnailViewController_iPhone.xib */,
 				0FA6A54B15A8E2E800BAE351 /* ViewController.h */,
 				0FA6A54C15A8E2E800BAE351 /* ViewController.m */,
+				0FF1EE0615B0DE8C00B97647 /* ChoosePlaceViewController.h */,
+				0FF1EE0715B0DE8C00B97647 /* ChoosePlaceViewController.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -209,6 +217,7 @@
 				0FA6A4FE15A8E13100BAE351 /* Sources */,
 				0FA6A4FF15A8E13100BAE351 /* Frameworks */,
 				0FA6A50015A8E13100BAE351 /* Resources */,
+				0FF1EDFD15AF9E6A00B97647 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -256,10 +265,27 @@
 				0FF1EDF215AF59AA00B97647 /* GridViewController_iPhone.xib in Resources */,
 				0FF1EDF415AF59F200B97647 /* ThumbnailViewController_iPhone.xib in Resources */,
 				0FF1EDF615AF59FE00B97647 /* ThumbnailViewController_iPad.xib in Resources */,
+				0FF1EDF815AF9D9000B97647 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0FF1EDFD15AF9E6A00B97647 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "KEYWORDS=\"TODO:|FIXME:|\\?\\?\\?:|\\!\\!\\!:\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($KEYWORDS).*\\$\" | perl -p -e \"s/($KEYWORDS)/ warning: \\$1/\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0FA6A4FE15A8E13100BAE351 /* Sources */ = {
@@ -277,6 +303,7 @@
 				0FD5D40715AAEBEB00D7A4C8 /* Reachability.m in Sources */,
 				0FD5D41015AAF47500D7A4C8 /* MediaParser.m in Sources */,
 				0F87A46915AE34E400F86E9A /* AsyncImageView.m in Sources */,
+				0FF1EE0815B0DE8C00B97647 /* ChoosePlaceViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
