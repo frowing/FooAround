@@ -7,6 +7,7 @@
 //
 
 #import "GridViewController.h"
+#import "MediaObject.h"
 
 #define VERTICAL_NUM_COLUMNS          3 
 #define HORIZONTAL_NUM_COLUMNS        4
@@ -29,8 +30,6 @@
 - (NSUInteger)numberOfColumns;
 -(UIImage *)resizeImage:(UIImage *)image width:(CGFloat)resizedWidth height:(CGFloat)resizedHeight;
 -(UIImage *) takeThumbnail:(NSURL *) url;
-
-
 
 @end
 
@@ -265,8 +264,21 @@
 #pragma mark ThumbnailViewControllerDelegate
 
 - (void)thumbnailSelectedWithID:(NSString*)thumbnailID {
-
+  NSAssert(self.delegate != nil,@"delegate should not be nil");
+  for (MediaObject *mediaObject in self.elements) {
+    if ([mediaObject.ident isEqualToString:thumbnailID]) {
+      if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        [self.delegate needToShowImage:mediaObject.text WithURL:mediaObject.lowResURL];
+      }
+      else {
+        [self.delegate needToShowImage:mediaObject.text WithURL:mediaObject.standardURL];
+      }
+      
+      return;
+    }
+  }
+  
+  NSAssert(NO,@"that image should exist");
 }
-
 
 @end

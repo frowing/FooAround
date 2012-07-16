@@ -81,47 +81,6 @@ NSString * const THUMBNAIL_INFO_KEY   = @"THUMBNAIL_INFO";
 }
 
 - (void)setState:(ThumbnailState)state {
-  /*state_ = state;
-  
-  switch (state_) {
-    case eInitial:
-      self.view.layer.borderWidth = 0.0f;
-      self.view.layer.borderColor = [UIColor colorWithRed:(0.0f) 
-                                                    green:(0.0f) 
-                                                     blue:(0.0f) 
-                                                    alpha:1.0f].CGColor;
-      self.backgroundView.backgroundColor = [UIColor blackColor];
-      break;
-      
-    case eSelected:
-       self.view.layer.borderColor = [UIColor colorWithRed:(0.9806f) 
-                                                     green:(0.513f) 
-                                                     blue:(0.05f) 
-                                                     alpha:1.0f].CGColor;
-      self.view.layer.borderWidth = 3.0f;        
-      
-      self.backgroundView.backgroundColor = [UIColor colorWithRed:(0.9806f) 
-                                                            green:(0.513f) 
-                                                             blue:(0.05f) 
-                                                            alpha:1.0f];
-      break;
-      
-    case eNotSelected:
-      self.view.layer.borderColor = [UIColor colorWithRed:(1.0f) 
-                                                    green:(1.0f) 
-                                                     blue:(1.0f) 
-                                                    alpha:1.0f].CGColor;
-      self.view.layer.borderWidth = 3.0f;  
-      
-      self.backgroundView.backgroundColor = [UIColor colorWithRed:(0.0f) 
-                                                            green:(0.0f) 
-                                                             blue:(0.0f) 
-                                                            alpha:1.0f];
-      break;
-      
-    default:
-      break;
-  }*/
 }
 
 #pragma mark - View lifecycle
@@ -129,7 +88,7 @@ NSString * const THUMBNAIL_INFO_KEY   = @"THUMBNAIL_INFO";
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-   
+  self.imageView.activityIndicatorStyle = UIActivityIndicatorViewStyleGray;
   self.imageView.imageURL = [NSURL URLWithString:self.mediaObject.thumbnailURL];
   [self.view bringSubviewToFront:self.selectionButton];
 }
@@ -151,6 +110,7 @@ NSString * const THUMBNAIL_INFO_KEY   = @"THUMBNAIL_INFO";
 #pragma mark IBAction methods
 
 - (IBAction)selectionButtonPressed:(id)sender {
+  NSAssert(self.delegate != nil,@"delegate should not be nil");
   [self.delegate thumbnailSelectedWithID:self.mediaObject.ident];
 }
 

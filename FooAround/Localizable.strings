@@ -13,3 +13,21 @@
 "RecentTitle" = "Recientes";
 
 "AroundTitle" = "Por aquí";
+
+"EmptyName" = "Sin título";
+
+"ErrorAlertViewTitle" = "Error";
+
+"InstagramErrorMessage" = "Instagram no puede darnos fotos ahora mismo, ¿Quieres intentarlo otra vez?";
+
+"LocationDisabledErrorMessage" = "Si no tienes la localización activada, no podemos encontrar fotos a tu alrededor. Puedes buscar en otros lugares o ver lugares recientes";
+
+"LocationUnknownErrorMessage" = "No hemos podido determinar tu localización, ¿Quieres que la intentemos recuperar de nuevo?";
+
+"LocationInterferenceErrorMessage" = "Parece que no se ha podido determinar tu posición debido a interferencias, ¿Deseas intentarlo de nuevo?";
+
+"DoneButtonTitle" = "Hecho";
+
+"CancelButtonTitle" = "Cancelar";
+
+"RetryButtonTitle" = "Reintentar";

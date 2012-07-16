@@ -83,12 +83,13 @@
   
   MediaParser *parser = [[[MediaParser alloc]init] autorelease];
   NSArray *media = [parser mediaObjectsInData:result];
-  
+  NSAssert(self.delegate != nil,@"delegate should not be nil");
   [self.delegate media:media withResult:Success];
 }
 
 - (void)connection:(HttpConnection*)connection
      requestFailed:(Result) error {
+  NSAssert(self.delegate != nil,@"delegate should not be nil");
   [self.delegate media:nil withResult:error];
 }
 

@@ -11,7 +11,7 @@
 
 @protocol GridViewControllerDelegate
 @required
--(void)elementSelected:(NSString *)elementID;
+- (void)needToShowImage:(NSString*)name WithURL:(NSString*)url;
 @end
 
 @interface GridViewController : UIViewController 
@@ -25,4 +25,6 @@
 
 - (id)initWithElements:(NSArray*)elements 
            andDelegate:(id<GridViewControllerDelegate>) delegate;
+- (void)empty;
+- (void)reload;
 @end

@@ -1,5 +1,5 @@
 //
-//  ChoosePlaceViewController.h
+//  SearchViewController.h
 //  FooAround
 //
 //  Created by Francisco Sevillano on 14/07/12.
@@ -10,9 +10,11 @@
 #import "LocationSelectedDelegate.h"
 #import "WannaHideDelegate.h"
 
-@interface ChoosePlaceViewController : UIViewController
-<LocationSelectedDelegate,
-WannaHideDelegate>
+
+@interface SearchViewController : UIViewController
+<UISearchBarDelegate,
+UITableViewDataSource,
+UITableViewDelegate>
 
 @property(nonatomic,assign)id<LocationSelectedDelegate,WannaHideDelegate>delegate;
 

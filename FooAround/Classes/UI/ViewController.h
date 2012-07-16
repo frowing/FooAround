@@ -8,15 +8,23 @@
 
 #import <UIKit/UIKit.h>
 #import "GridViewController.h"
+#import "LocationSelectedDelegate.h"
 #import "MediaHandler.h"
+#import "WannaHideDelegate.h"
 
 @interface ViewController : UIViewController
 <CLLocationManagerDelegate, 
 GridViewControllerDelegate,
-MediaHandlerDelegate>
+LocationSelectedDelegate,
+MediaHandlerDelegate,
+WannaHideDelegate, 
+UIAlertViewDelegate>
 
+@property(nonatomic,retain)IBOutlet UILabel *errorMessageLabel;
+@property(nonatomic,retain)IBOutlet UIButton *retryButton;
 @property(nonatomic,retain)IBOutlet UIButton *placeButton;
 
 - (IBAction)placeButtonPressed:(id)sender;
+- (IBAction)retryButtonPressed:(id)sender;
 
 @end

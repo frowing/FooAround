@@ -21,6 +21,9 @@
 		0FA6A54A15A8E2D900BAE351 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA6A54915A8E2D900BAE351 /* AppDelegate.m */; };
 		0FA6A54D15A8E2E800BAE351 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA6A54C15A8E2E800BAE351 /* ViewController.m */; };
 		0FA6A55815A8EC0800BAE351 /* HttpConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA6A55715A8EC0800BAE351 /* HttpConnection.m */; };
+		0FBABBA715B20C2200E6DEE9 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBABBA615B20C2200E6DEE9 /* SearchViewController.m */; };
+		0FBABBAB15B20C3700E6DEE9 /* RecentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBABBAA15B20C3700E6DEE9 /* RecentViewController.m */; };
+		0FBABBBE15B320E700E6DEE9 /* SingleImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBABBBD15B320E700E6DEE9 /* SingleImageView.m */; };
 		0FD5D3F815AAE08800D7A4C8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD5D3F715AAE08800D7A4C8 /* CoreLocation.framework */; };
 		0FD5D3FC15AAE2DA00D7A4C8 /* MediaObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD5D3FB15AAE2DA00D7A4C8 /* MediaObject.m */; };
 		0FD5D40415AAE4D300D7A4C8 /* MediaHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD5D40315AAE4D200D7A4C8 /* MediaHandler.m */; };
@@ -60,6 +63,14 @@
 		0FA6A55615A8EC0800BAE351 /* HttpConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpConnection.h; sourceTree = "<group>"; };
 		0FA6A55715A8EC0800BAE351 /* HttpConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpConnection.m; sourceTree = "<group>"; };
 		0FA6A55915A8EC5900BAE351 /* Result.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Result.h; sourceTree = "<group>"; };
+		0FBABBA515B20C2200E6DEE9 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		0FBABBA615B20C2200E6DEE9 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		0FBABBA915B20C3700E6DEE9 /* RecentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentViewController.h; sourceTree = "<group>"; };
+		0FBABBAA15B20C3700E6DEE9 /* RecentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentViewController.m; sourceTree = "<group>"; };
+		0FBABBAC15B217BC00E6DEE9 /* WannaHideDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WannaHideDelegate.h; sourceTree = "<group>"; };
+		0FBABBBB15B22E0A00E6DEE9 /* LocationSelectedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationSelectedDelegate.h; sourceTree = "<group>"; };
+		0FBABBBC15B320E600E6DEE9 /* SingleImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleImageView.h; sourceTree = "<group>"; };
+		0FBABBBD15B320E700E6DEE9 /* SingleImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleImageView.m; sourceTree = "<group>"; };
 		0FD5D3F715AAE08800D7A4C8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		0FD5D3FA15AAE2DA00D7A4C8 /* MediaObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaObject.h; sourceTree = "<group>"; };
 		0FD5D3FB15AAE2DA00D7A4C8 /* MediaObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaObject.m; sourceTree = "<group>"; };
@@ -203,6 +214,14 @@
 				0FA6A54C15A8E2E800BAE351 /* ViewController.m */,
 				0FF1EE0615B0DE8C00B97647 /* ChoosePlaceViewController.h */,
 				0FF1EE0715B0DE8C00B97647 /* ChoosePlaceViewController.m */,
+				0FBABBA515B20C2200E6DEE9 /* SearchViewController.h */,
+				0FBABBA615B20C2200E6DEE9 /* SearchViewController.m */,
+				0FBABBA915B20C3700E6DEE9 /* RecentViewController.h */,
+				0FBABBAA15B20C3700E6DEE9 /* RecentViewController.m */,
+				0FBABBAC15B217BC00E6DEE9 /* WannaHideDelegate.h */,
+				0FBABBBB15B22E0A00E6DEE9 /* LocationSelectedDelegate.h */,
+				0FBABBBC15B320E600E6DEE9 /* SingleImageView.h */,
+				0FBABBBD15B320E700E6DEE9 /* SingleImageView.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -304,6 +323,9 @@
 				0FD5D41015AAF47500D7A4C8 /* MediaParser.m in Sources */,
 				0F87A46915AE34E400F86E9A /* AsyncImageView.m in Sources */,
 				0FF1EE0815B0DE8C00B97647 /* ChoosePlaceViewController.m in Sources */,
+				0FBABBA715B20C2200E6DEE9 /* SearchViewController.m in Sources */,
+				0FBABBAB15B20C3700E6DEE9 /* RecentViewController.m in Sources */,
+				0FBABBBE15B320E700E6DEE9 /* SingleImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
