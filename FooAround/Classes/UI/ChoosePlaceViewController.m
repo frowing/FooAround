@@ -121,10 +121,11 @@
                   forControlEvents:UIControlEventValueChanged];
   
   self.currentLocationButton = 
-  [[UIBarButtonItem alloc]initWithTitle:NSLocalizedString(@"AroundTitle", @"")  
+  [[[UIBarButtonItem alloc]initWithTitle:NSLocalizedString(@"AroundTitle", @"")  
                                   style:UIBarButtonItemStyleBordered 
                                  target:self 
-                                 action:@selector(currentLocationButtonPressed)];
+                                 action:@selector(currentLocationButtonPressed)] 
+   autorelease];
   
   toolBar_ = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 
                                                         0, 
@@ -134,7 +135,7 @@
   self.toolbar.tintColor = TOOLBAR_TINT_COLOR;
   
   UIBarButtonItem *segmentedItem = 
-  [[UIBarButtonItem alloc]initWithCustomView:self.segmentedControl];
+  [[[UIBarButtonItem alloc]initWithCustomView:self.segmentedControl] autorelease];
   
   UIBarButtonItem *flexibleSpace = 
   [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace 
@@ -165,7 +166,7 @@
 }
 
 - (void)currentLocationButtonPressed {
-  NSLog(@"currentLocationButtonPressed");
+  [self.delegate currentLocationSelected];
 }
 
 - (void)segmentedValueChanged {
@@ -201,6 +202,10 @@
            atCoordinates:(CLLocationCoordinate2D)coordinates {
   NSAssert(self.delegate != nil,@"delegate should not be nil");
   [self.delegate locationSelected:locationName atCoordinates:coordinates];
+}
+
+- (void)currentLocationSelected {
+  NSAssert(NO,@"we don't need this right now");
 }
 
 @end

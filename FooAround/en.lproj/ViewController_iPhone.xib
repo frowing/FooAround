@@ -99,7 +99,7 @@
 					<object class="IBUILabel" id="208854170">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">-2147483356</int>
-						<string key="NSFrame">{{10, 168}, {300, 78}}</string>
+						<string key="NSFrame">{{10, 168}, {300, 105}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="474585748"/>
@@ -117,7 +117,8 @@
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<float key="IBUIMinimumFontSize">10</float>
-						<int key="IBUINumberOfLines">3</int>
+						<int key="IBUINumberOfLines">4</int>
+						<int key="IBUITextAlignment">1</int>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
 							<int key="type">1</int>
 							<double key="pointSize">17</double>
@@ -134,6 +135,7 @@
 						<string key="NSFrame">{{97, 293}, {127, 37}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>

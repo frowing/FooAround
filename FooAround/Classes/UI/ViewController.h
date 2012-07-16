@@ -27,4 +27,6 @@ UIAlertViewDelegate>
 - (IBAction)placeButtonPressed:(id)sender;
 - (IBAction)retryButtonPressed:(id)sender;
 
+- (void)start;
+
 @end

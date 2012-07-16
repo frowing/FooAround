@@ -145,6 +145,16 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *) connection
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+  
+#if DEBUG
+  NSString *dataReceived = 
+  [[NSString alloc] initWithData:self.responseData 
+                        encoding:NSUTF8StringEncoding];
+  
+  NSLog(@"%@", dataReceived);
+  [dataReceived release];
+#endif
+  
     switch (((NSHTTPURLResponse*) response).statusCode)
     {
         case HTTP_OK_STATUS:

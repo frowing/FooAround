@@ -80,9 +80,6 @@ NSString * const THUMBNAIL_INFO_KEY   = @"THUMBNAIL_INFO";
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void)setState:(ThumbnailState)state {
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad

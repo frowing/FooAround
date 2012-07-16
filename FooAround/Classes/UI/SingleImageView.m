@@ -91,12 +91,17 @@
 
 - (void)setUpImageViewWithURL:(NSString *)url {
   self.imageView = 
-  [[AsyncImageView alloc]initWithFrame:CGRectMake(0, 
+  [[[AsyncImageView alloc]initWithFrame:CGRectMake(0, 
                                                   0, 
                                                   self.frame.size.width,
-                                                  self.frame.size.width)];
-  self.imageView.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
-  NSAssert([self.backgroundColor isEqual:[UIColor blackColor]],@"if color changes, we might not need this");
+                                                  self.frame.size.width)] autorelease];
+  self.imageView.center = 
+  CGPointMake(self.frame.size.width / 2, 
+              self.frame.size.height / 2);
+  
+  NSAssert([self.backgroundColor isEqual:[UIColor blackColor]],
+           @"if color changes, we might not need this");
+  
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
     self.imageView.activityIndicatorStyle = UIActivityIndicatorViewStyleWhite;
   } 

@@ -19,12 +19,13 @@
 @property(nonatomic,retain)UISearchBar *searchBar;
 @property(nonatomic,retain)UIButton *cancelButton;
 @property(nonatomic,retain)UITableView *tableView;
+@property(nonatomic,retain)UIButton *hideKeyboardButton;
 @property(nonatomic,retain)NSArray *placemarks;
 
 - (void)setupNavbar;
 - (void)setupTableView;
 - (void)cancelButtonPressed;
-
+- (void)hideKeyboard;
 @end
 
 @implementation SearchViewController
@@ -32,6 +33,7 @@
 @synthesize navBar = navBar_;
 @synthesize searchBar = searchBar_;
 @synthesize cancelButton = cancelButton_;
+@synthesize hideKeyboardButton = hideKeyboardButton_;
 @synthesize delegate = delegate_;
 @synthesize tableView = tableView_;
 @synthesize placemarks = placemarks_;
@@ -41,6 +43,7 @@
   [searchBar_ release];
   [cancelButton_ release];
   [tableView_ release];
+  [hideKeyboardButton_ release];
   [placemarks_ release];
   
   [super dealloc];
@@ -96,7 +99,7 @@
   self.searchBar.tintColor = NAVBAR_TINT_COLOR;
   self.searchBar.delegate = self;
   
-  UINavigationItem *item = [[UINavigationItem alloc]init];
+  UINavigationItem *item = [[[UINavigationItem alloc]init] autorelease];
   item.titleView = self.searchBar;
   UIBarButtonItem *cancelButton = 
   [[[UIBarButtonItem alloc]initWithTitle:NSLocalizedString(@"CancelButtonTitle", @"")
@@ -126,18 +129,18 @@
 #pragma mark -
 #pragma mark UISearchbarDelegate methods 
 
-//TODO: hidekeyboard button
-
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-  CLGeocoder *geoCoder = [[CLGeocoder alloc]init];
+  CLGeocoder *geoCoder = [[[CLGeocoder alloc]init] autorelease];
   
   //TODO: show loading dialog
-  [geoCoder geocodeAddressString:self.searchBar.text completionHandler:^(NSArray *placemarks, NSError *error) {
+  [geoCoder geocodeAddressString:self.searchBar.text 
+               completionHandler:^(NSArray *placemarks, NSError *error) {
     if (error != nil) {
       //TODO: show alert error
     }
     else {
       [self.searchBar resignFirstResponder];
+      [self.hideKeyboardButton removeFromSuperview];
       self.placemarks = placemarks;
       self.tableView.hidden = NO;
       
@@ -147,6 +150,29 @@
       });
     }    
   }];
+}
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+  self.hideKeyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
+  self.hideKeyboardButton.frame = 
+  CGRectMake(0, 
+             self.navBar.frame.size.height, 
+             self.view.frame.size.width, 
+             self.view.frame.size.height - self.navBar.frame.size.height);
+  
+  [self.hideKeyboardButton addTarget:self 
+                              action:@selector(hideKeyboard) 
+                    forControlEvents:UIControlEventTouchDown];
+  self.hideKeyboardButton.backgroundColor = [UIColor clearColor];
+  
+  [self.view addSubview:self.hideKeyboardButton];
+ 
+  return YES;
+}
+
+- (void)hideKeyboard {
+  [self.searchBar resignFirstResponder];
+  [self.hideKeyboardButton removeFromSuperview];
 }
 
 #pragma mark - 
@@ -165,8 +191,8 @@
   (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
   
 	if (cell == nil) {
-		cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle 
-                                 reuseIdentifier:identifier];
+		cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle 
+                                 reuseIdentifier:identifier] autorelease];
 	}
   
   CLPlacemark *placemark = [self.placemarks objectAtIndex:indexPath.row];

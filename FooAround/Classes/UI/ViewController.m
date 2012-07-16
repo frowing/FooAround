@@ -29,6 +29,7 @@
 @property(nonatomic,retain) UIPopoverController *popover;
 
 - (void)hideChoosePlaceViewController;
+- (void)getLocation;
 
 @end
 
@@ -69,7 +70,7 @@
   self.mediaHandler = 
   [[[MediaHandler alloc]initWithDelegate:self]autorelease];
   
-  self.geocoder = [[CLGeocoder alloc]init];
+  self.geocoder = [[[CLGeocoder alloc]init] autorelease];
   
   [self.placeButton setTitleColor:BUTTON_TEXT_COLOR 
                          forState:UIControlStateNormal];
@@ -77,24 +78,6 @@
                          forState:UIControlStateNormal];
   [self.retryButton setTitle:NSLocalizedString(@"RetryButtonTitle", @"") 
                     forState:UIControlStateNormal];
-  
-  if ([CLLocationManager locationServicesEnabled]) {
-    locationManager_ = [[CLLocationManager alloc]init];
-    self.locationManager.delegate = self;
-    self.locationManager.purpose = NSLocalizedString(@"LocationManagerPurpose", @"");
-    [self.locationManager startUpdatingLocation];
-  } 
-  else {
-    self.errorMessageLabel.text = NSLocalizedString(@"LocationDisabledErrorMessage",@"");
-    //TODO: enlazar a las settings de la aplicación con el retry button
-    self.retryButton.hidden = YES;
-    self.retryButton.tag = RETRY_LOCATION_TAG;
-    self.errorMessageLabel.hidden = NO;
-  }
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-  
 }
 
 - (void)viewDidUnload
@@ -130,19 +113,30 @@
 }
 
 - (IBAction)retryButtonPressed:(id)sender {
-  NSAssert(self.retryButton.tag != RETRY_NONE,
-           @"The retry button should have a meaningful tag");
   
-  self.retryButton.hidden = YES;
-  self.errorMessageLabel.hidden = YES;
-  [self.mediaHandler mediaForLocation:self.locationManager.location.coordinate];
-  [self.geocoder reverseGeocodeLocation:self.locationManager.location 
-                      completionHandler:^(NSArray *placemarks, NSError *error){
-    //TODO: control error
-    CLPlacemark *firstPlacemark = [placemarks objectAtIndex:0];                      
-    [self.placeButton setTitle:firstPlacemark.locality 
-                      forState:UIControlStateNormal];
-  }];
+  if (self.retryButton.tag == RETRY_INSTAGRAM_TAG) {
+    self.retryButton.hidden = YES;
+    self.errorMessageLabel.hidden = YES;
+    [self.mediaHandler mediaForLocation:self.locationManager.location.coordinate];
+    [self.geocoder reverseGeocodeLocation:self.locationManager.location 
+                        completionHandler:^(NSArray *placemarks, NSError *error){
+                          //TODO: control error
+                          CLPlacemark *firstPlacemark = [placemarks objectAtIndex:0];                      
+                          [self.placeButton setTitle:firstPlacemark.locality 
+                                            forState:UIControlStateNormal];
+                        }];
+  }
+  else if (self.retryButton.tag == RETRY_LOCATION_TAG) {
+    [self getLocation];
+  }
+  else {
+    NSAssert(NO,
+             @"The retry button should have a meaningful tag");
+  }
+}
+
+- (void)start {
+  [self getLocation];
 }
 
 #pragma mark -
@@ -154,12 +148,13 @@
   NSAssert(url != nil,@"url should not be nil");
   
   SingleImageView *imageView = 
-  [[SingleImageView alloc]initWithFrame:CGRectMake(0, 
+  [[[SingleImageView alloc]initWithFrame:CGRectMake(0, 
                                                    0, 
                                                    self.view.frame.size.width, 
                                                    self.view.frame.size.height) 
                                    name:name
-                                    url:url];
+                                    url:url] 
+   autorelease];
   
   imageView.alpha = 0.0f;
   [self.view addSubview:imageView];
@@ -175,7 +170,6 @@
 #pragma mark MediaHandlerDelegate methods
 
 - (void)media:(NSArray*)media withResult:(Result)result {
-  //TODO: controlar que si hay error se muestre un mensaje
   if (result == Success) {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
       self.gridViewController = 
@@ -199,7 +193,9 @@
     [self.view addSubview:self.gridViewController.view];
   }
   else { 
-    self.errorMessageLabel.text = NSLocalizedString(@"InstagramErrorMessage",@"");
+    self.errorMessageLabel.text = 
+    NSLocalizedString(@"InstagramErrorMessage",@"");
+    
     self.retryButton.tag = RETRY_INSTAGRAM_TAG;    
     self.retryButton.hidden = NO;
     self.errorMessageLabel.hidden = NO;
@@ -216,10 +212,12 @@ didUpdateToLocation:(CLLocation *)newLocation
 fromLocation:(CLLocation *)oldLocation {
   [self.mediaHandler mediaForLocation:newLocation.coordinate];
   [self.locationManager stopUpdatingLocation];
-  [self.geocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error){
+  [self.geocoder reverseGeocodeLocation:newLocation 
+                      completionHandler:^(NSArray *placemarks, NSError *error){
     //TODO: control error
     CLPlacemark *firstPlacemark = [placemarks objectAtIndex:0];
-    [self.placeButton setTitle:firstPlacemark.locality forState:UIControlStateNormal];
+    [self.placeButton setTitle:firstPlacemark.locality 
+                      forState:UIControlStateNormal];
   } ];
 }
 
@@ -229,20 +227,30 @@ fromLocation:(CLLocation *)oldLocation {
   NSLog(@"Error: %@",[error localizedDescription]);
   switch([error code]) {
     case kCLErrorDenied:
-      self.errorMessageLabel.text = NSLocalizedString(@"LocationDisabledErrorMessage",@"");
+      self.errorMessageLabel.text = 
+      NSLocalizedString(@"LocationDisabledErrorMessage",@"");
+      
+      self.retryButton.hidden = YES;
+      self.retryButton.tag = RETRY_LOCATION_TAG;
+      
+      [self.placeButton setTitle:NSLocalizedString(@"SearchTitle", @"") 
+                        forState:UIControlStateNormal];
       break;
     case kCLErrorLocationUnknown:
-      self.errorMessageLabel.text = NSLocalizedString(@"LocationUnknownErrorMessage", @"");
+      self.errorMessageLabel.text = 
+      NSLocalizedString(@"LocationUnknownErrorMessage", @"");
+      
       self.retryButton.tag = RETRY_LOCATION_TAG;
       break;
     default:
-      self.errorMessageLabel.text = NSLocalizedString(@"LocationUnknownErrorMessage", @"");
+      self.errorMessageLabel.text = 
+      NSLocalizedString(@"LocationUnknownErrorMessage", @"");
+      
       self.retryButton.tag = RETRY_LOCATION_TAG;
       break;
   }
   
   self.errorMessageLabel.hidden = NO;
-
 }
 
 #pragma mark - 
@@ -266,6 +274,11 @@ fromLocation:(CLLocation *)oldLocation {
   [self hideChoosePlaceViewController];
 }
 
+- (void)currentLocationSelected {
+  [self getLocation];
+  [self hideChoosePlaceViewController];
+}
+
 #pragma mark -
 #pragma mark Private methods
 
@@ -274,6 +287,35 @@ fromLocation:(CLLocation *)oldLocation {
     [self.choosePlaceViewController dismissModalViewControllerAnimated:YES];
   } else {
     [self.popover dismissPopoverAnimated:YES];
+  }
+}
+
+- (void)getLocation {
+  //FIX: If the location is disabled, the grid viewcontroller still shows
+  //TODO: We need to consider the case we were looking at a searched location,
+  //the error message shouldn't appear
+  [self.gridViewController.view removeFromSuperview];
+  self.gridViewController = nil;
+  self.retryButton.hidden = YES;
+  self.errorMessageLabel.hidden = YES;
+  if ([CLLocationManager locationServicesEnabled]) {
+    locationManager_ = [[CLLocationManager alloc]init];
+    self.locationManager.delegate = self;
+    self.locationManager.purpose = 
+    NSLocalizedString(@"LocationManagerPurpose", @"");
+    
+    [self.locationManager startUpdatingLocation];
+  } 
+  else {
+    self.errorMessageLabel.text = 
+    NSLocalizedString(@"LocationDisabledErrorMessage",@"");
+    
+    self.retryButton.hidden = YES;
+    self.retryButton.tag = RETRY_LOCATION_TAG;
+    self.errorMessageLabel.hidden = NO;
+    
+    [self.placeButton setTitle:NSLocalizedString(@"SearchTitle", @"") 
+                      forState:UIControlStateNormal];
   }
 }
 

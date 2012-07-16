@@ -68,7 +68,7 @@
                                                    self.view.frame.size.width,
                                                    44)];
   self.navBar.tintColor = NAVBAR_TINT_COLOR;
-  UINavigationItem *item = [[UINavigationItem alloc]init];
+  UINavigationItem *item = [[[UINavigationItem alloc]init] autorelease];
   UIBarButtonItem *cancelButton = 
   [[[UIBarButtonItem alloc]initWithTitle:NSLocalizedString(@"CancelButtonTitle", @"")
                                    style:UIBarButtonItemStyleBordered 

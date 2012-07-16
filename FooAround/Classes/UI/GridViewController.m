@@ -26,7 +26,6 @@
 - (UIDeviceOrientation)deviceOrientation;
 - (BOOL)isValidOrientation:(UIDeviceOrientation)deviceOrientation;
 - (void)adaptViews;
-- (void)orientationChanged:(NSNotification *)notification;
 - (NSUInteger)numberOfColumns;
 -(UIImage *)resizeImage:(UIImage *)image width:(CGFloat)resizedWidth height:(CGFloat)resizedHeight;
 -(UIImage *) takeThumbnail:(NSURL *) url;
@@ -48,11 +47,6 @@
   [elements_ release];
   [thumbnailViewControllers_ release];
   [thumbnailSelectedID_ release];
-  
-  [[NSNotificationCenter defaultCenter] 
-   removeObserver:self 
-   name:@"UIDeviceOrientationDidChangeNotification" 
-   object:nil];
   
   [super dealloc];
 }
@@ -85,22 +79,6 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void)setSelectable:(BOOL)selectable {
-  
-  selectable_ = selectable;
-  
-  ThumbnailState newState = eInitial;
-  
-  if (selectable) {
-    newState = eNotSelected;
-  }
-  
-  for (ThumbnailViewController *vc in self.thumbnailViewControllers) {
-    [vc setState:newState];
-  }
-  
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -108,16 +86,13 @@
   [super viewDidLoad];
   self.thumbnailViewControllers = [self viewControllersFromElements:elements_];
   self.orientation = self.deviceOrientation;
-  [self performSelector:@selector(adaptViews) withObject:nil afterDelay:0.5f];
   for (ThumbnailViewController *vc in self.thumbnailViewControllers) {
     [self.scrollView addSubview:vc.view];
   }
-  
-  [[NSNotificationCenter defaultCenter] 
-   addObserver:self                                             
-   selector:@selector(orientationChanged:)                                                 
-   name:@"UIDeviceOrientationDidChangeNotification"                                                
-   object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+  [self adaptViews];
 }
 
 - (void)viewDidUnload
@@ -236,19 +211,6 @@
   
   //Square thumbnail
   return CGSizeMake(thumbnailWidth, thumbnailWidth);
-}
-
-- (void)orientationChanged:(NSNotification *)notification {
-  
-  if ((self.orientation != self.deviceOrientation) && 
-      ([self isValidOrientation:self.deviceOrientation])) {
-    
-    [self performSelector:@selector(adaptViews) 
-               withObject:nil 
-               afterDelay:0.1f];
-    
-    self.orientation = self.deviceOrientation;
-  }    
 }
 
 - (NSUInteger)numberOfColumns {

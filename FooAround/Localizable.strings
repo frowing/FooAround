@@ -12,7 +12,7 @@
 
 "RecentTitle" = "Recientes";
 
-"AroundTitle" = "Por aquí";
+"AroundTitle" = "Alrededor";
 
 "EmptyName" = "Sin título";
 
@@ -23,8 +23,6 @@
 "LocationDisabledErrorMessage" = "Si no tienes la localización activada, no podemos encontrar fotos a tu alrededor. Puedes buscar en otros lugares o ver lugares recientes";
 
 "LocationUnknownErrorMessage" = "No hemos podido determinar tu localización, ¿Quieres que la intentemos recuperar de nuevo?";
-
-"LocationInterferenceErrorMessage" = "Parece que no se ha podido determinar tu posición debido a interferencias, ¿Deseas intentarlo de nuevo?";
 
 "DoneButtonTitle" = "Hecho";
 

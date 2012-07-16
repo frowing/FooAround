@@ -72,14 +72,6 @@
 - (void)connection:(HttpConnection*)connection 
    requestFinished:(NSData *) result 
       withEncoding:(NSStringEncoding) encoding {
-#if DEBUG
-	NSString *dataReceived = 
-  [[NSString alloc] initWithData:result 
-                        encoding:NSUTF8StringEncoding];
-  
-	NSLog(@"%@", dataReceived);
-	[dataReceived release];
-#endif 
   
   MediaParser *parser = [[[MediaParser alloc]init] autorelease];
   NSArray *media = [parser mediaObjectsInData:result];

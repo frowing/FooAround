@@ -11,6 +11,8 @@
 
 @protocol LocationSelectedDelegate <NSObject>
 
+- (void)currentLocationSelected;
+
 - (void)locationSelected:(NSString*)locationName 
            atCoordinates:(CLLocationCoordinate2D)coordinates;
 
