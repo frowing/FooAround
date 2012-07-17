@@ -8,6 +8,7 @@
 
 #import <CoreLocation/CoreLocation.h>
 #import "SearchViewController.h"
+#import "RecentSearchesHandler.h"
 
 #define NAVBAR_TINT_COLOR  [UIColor colorWithRed:(49.0f / 255.0f) green:(140.0f/255.0f) blue:(191.0f/255.0f) alpha:1.0f]
 #define NAVBAR_FRAME CGRectMake(0,0,self.view.frame.size.width,44)
@@ -15,17 +16,19 @@
 
 @interface SearchViewController ()
 
-@property(nonatomic,retain)UINavigationBar *navBar;
-@property(nonatomic,retain)UISearchBar *searchBar;
-@property(nonatomic,retain)UIButton *cancelButton;
-@property(nonatomic,retain)UITableView *tableView;
-@property(nonatomic,retain)UIButton *hideKeyboardButton;
-@property(nonatomic,retain)NSArray *placemarks;
+@property(nonatomic,retain) UINavigationBar *navBar;
+@property(nonatomic,retain) UISearchBar *searchBar;
+@property(nonatomic,retain) UIButton *cancelButton;
+@property(nonatomic,retain) UITableView *tableView;
+@property(nonatomic,retain) UIButton *hideKeyboardButton;
+@property(nonatomic,retain) NSArray *placemarks;
 
 - (void)setupNavbar;
 - (void)setupTableView;
 - (void)cancelButtonPressed;
 - (void)hideKeyboard;
+- (void)addActivityIndicator;
+- (void)removeActivityIndicator;
 @end
 
 @implementation SearchViewController
@@ -101,12 +104,14 @@
   
   UINavigationItem *item = [[[UINavigationItem alloc]init] autorelease];
   item.titleView = self.searchBar;
+  
   UIBarButtonItem *cancelButton = 
   [[[UIBarButtonItem alloc]initWithTitle:NSLocalizedString(@"CancelButtonTitle", @"")
                                    style:UIBarButtonItemStyleBordered 
                                   target:self 
                                   action:@selector(cancelButtonPressed)]
-   autorelease];
+   autorelease]; 
+  cancelButton.title = NSLocalizedString(@"CancelButtonTitle", @"");
   item.rightBarButtonItem = cancelButton;
   
   self.navBar.items = [NSArray arrayWithObject:item];  
@@ -123,7 +128,30 @@
 
 - (void)cancelButtonPressed {
   NSAssert(self.delegate != nil,@"delegate should not be nil");
+  [self.hideKeyboardButton removeFromSuperview];
+  self.hideKeyboardButton = nil;
   [self.delegate wannaHide:self];
+}
+
+- (void)addActivityIndicator {
+  UIActivityIndicatorView *activity = 
+  [[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(0, 0,20, 20)]
+   autorelease];
+  
+  activity.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
+  [activity startAnimating];
+  
+  UIBarButtonItem *activityItem = 
+  [[[UIBarButtonItem alloc]initWithCustomView:activity] 
+   autorelease];
+  
+  UINavigationItem *item = [self.navBar.items objectAtIndex:0];  
+  item.leftBarButtonItem = activityItem;
+}
+
+- (void)removeActivityIndicator {
+  UINavigationItem *item = [self.navBar.items objectAtIndex:0];  
+  item.leftBarButtonItem = nil;
 }
 
 #pragma mark -
@@ -132,13 +160,14 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
   CLGeocoder *geoCoder = [[[CLGeocoder alloc]init] autorelease];
   
-  //TODO: show loading dialog
+  [self addActivityIndicator];
   [geoCoder geocodeAddressString:self.searchBar.text 
                completionHandler:^(NSArray *placemarks, NSError *error) {
     if (error != nil) {
       //TODO: show alert error
     }
     else {
+      [self removeActivityIndicator];
       [self.searchBar resignFirstResponder];
       [self.hideKeyboardButton removeFromSuperview];
       self.placemarks = placemarks;
@@ -171,6 +200,7 @@
 }
 
 - (void)hideKeyboard {
+  //FIX: Sometimes it doesn't respond to touches
   [self.searchBar resignFirstResponder];
   [self.hideKeyboardButton removeFromSuperview];
 }
@@ -214,6 +244,11 @@
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   CLPlacemark *placemark = [self.placemarks objectAtIndex:indexPath.row];
   NSAssert(self.delegate != nil,@"delegate should not be nil");
+  
+  RecentSearchesHandler *recentSearchesHandler = 
+  [RecentSearchesHandler sharedInstance];
+  [recentSearchesHandler addPlacemark:placemark];
+  
   [self.delegate locationSelected:placemark.locality 
                     atCoordinates:placemark.location.coordinate];
 }

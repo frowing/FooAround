@@ -11,7 +11,10 @@
 #import "WannaHideDelegate.h"
 
 @interface RecentViewController : UIViewController
+<UITableViewDelegate,
+UITableViewDataSource>
 
+@property(nonatomic,retain) IBOutlet UITableView *tableView;
 @property(nonatomic,assign)id<LocationSelectedDelegate,WannaHideDelegate>delegate;
 
 @end

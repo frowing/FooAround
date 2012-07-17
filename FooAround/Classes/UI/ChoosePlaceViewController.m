@@ -91,6 +91,10 @@
 #pragma mark Private methods
 
 - (void)adjustToolBar {
+  self.toolbar.frame = CGRectMake(0, 
+                                  0, 
+                                  self.view.frame.size.width,
+                                  44);
   self.toolbar.center = 
   CGPointMake(self.view.frame.size.width / 2, 
               self.view.frame.size.height - (self.toolbar.frame.size.height / 2));
@@ -177,6 +181,7 @@
   else if (self.segmentedControl.selectedSegmentIndex == 1) {
     self.searchViewController.view.hidden = YES;
     self.recentViewController.view.hidden = NO;
+    [self.recentViewController viewWillAppear:NO];
   }
   else {
     NSAssert(NO,@"unknown selectedSegmentIndex");

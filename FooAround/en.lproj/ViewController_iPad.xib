@@ -11,12 +11,13 @@
 			<string key="NS.object.0">1181</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
+			<string>IBUIView</string>
+			<string>IBProxyObject</string>
 			<string>IBUILabel</string>
+			<string>IBUIActivityIndicatorView</string>
+			<string>IBUINavigationBar</string>
 			<string>IBUINavigationItem</string>
 			<string>IBUIButton</string>
-			<string>IBUIView</string>
-			<string>IBUINavigationBar</string>
-			<string>IBProxyObject</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -48,6 +49,7 @@
 								<string key="NSFrame">{{230, 6}, {307, 33}}</string>
 								<reference key="NSSuperview" ref="604448588"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="969523263"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -101,7 +103,7 @@
 						<string key="NSFrame">{{20, 329}, {728, 78}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="680642737"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -149,6 +151,20 @@
 						<reference key="IBUIFontDescription" ref="815109623"/>
 						<reference key="IBUIFont" ref="435025415"/>
 					</object>
+					<object class="IBUIActivityIndicatorView" id="969523263">
+						<reference key="NSNextResponder" ref="766721923"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{728, 12}, {20, 20}}</string>
+						<reference key="NSSuperview" ref="766721923"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="666146368"/>
+						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<bool key="IBUIOpaque">NO</bool>
+						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+						<bool key="IBUIHidesWhenStopped">NO</bool>
+						<bool key="IBUIAnimating">YES</bool>
+						<int key="IBUIStyle">2</int>
+					</object>
 				</array>
 				<string key="NSFrame">{{0, 20}, {768, 1004}}</string>
 				<reference key="NSSuperview"/>
@@ -192,6 +208,14 @@
 						<reference key="destination" ref="680642737"/>
 					</object>
 					<int key="connectionID">12</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">navActivity</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="969523263"/>
+					</object>
+					<int key="connectionID">15</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -238,6 +262,7 @@
 							<reference ref="604448588"/>
 							<reference ref="680642737"/>
 							<reference ref="666146368"/>
+							<reference ref="969523263"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -272,6 +297,11 @@
 						<reference key="object" ref="680642737"/>
 						<reference key="parent" ref="766721923"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">14</int>
+						<reference key="object" ref="969523263"/>
+						<reference key="parent" ref="766721923"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -280,6 +310,7 @@
 				<string key="-2.CustomClassName">UIResponder</string>
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="14.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -290,7 +321,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">13</int>
+			<int key="maxID">15</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -313,6 +344,7 @@
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="errorMessageLabel">UILabel</string>
+						<string key="navActivity">UIActivityIndicatorView</string>
 						<string key="placeButton">UIButton</string>
 						<string key="retryButton">UIButton</string>
 					</dictionary>
@@ -320,6 +352,10 @@
 						<object class="IBToOneOutletInfo" key="errorMessageLabel">
 							<string key="name">errorMessageLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="navActivity">
+							<string key="name">navActivity</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="placeButton">
 							<string key="name">placeButton</string>

@@ -18,9 +18,13 @@
 
 "ErrorAlertViewTitle" = "Error";
 
+"LocatingTitle" = "Localizando...";
+
 "InstagramErrorMessage" = "Instagram no puede darnos fotos ahora mismo, ¿Quieres intentarlo otra vez?";
 
-"LocationDisabledErrorMessage" = "Si no tienes la localización activada, no podemos encontrar fotos a tu alrededor. Puedes buscar en otros lugares o ver lugares recientes";
+"InstagramEmptyMessage" = "Parece que no hay Instagrams en ese lugar, prueba con otro.";
+
+"LocationDisabledErrorMessage" = "Si no tienes la localización activada, no podemos encontrar fotos a tu alrededor. Puedes buscar en otros lugares o ver lugares recientes.";
 
 "LocationUnknownErrorMessage" = "No hemos podido determinar tu localización, ¿Quieres que la intentemos recuperar de nuevo?";
 

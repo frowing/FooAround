@@ -9,8 +9,8 @@
 #import "GridViewController.h"
 #import "MediaObject.h"
 
-#define VERTICAL_NUM_COLUMNS          3 
-#define HORIZONTAL_NUM_COLUMNS        4
+#define IPHONE_NUM_COLUMNS            3 
+#define IPAD_NUM_COLUMNS              4
 #define START_X_COORDINATE            20.0f
 #define START_Y_COORDINATE            20.0f
 #define X_GAP                         10.0f
@@ -27,8 +27,8 @@
 - (BOOL)isValidOrientation:(UIDeviceOrientation)deviceOrientation;
 - (void)adaptViews;
 - (NSUInteger)numberOfColumns;
--(UIImage *)resizeImage:(UIImage *)image width:(CGFloat)resizedWidth height:(CGFloat)resizedHeight;
--(UIImage *) takeThumbnail:(NSURL *) url;
+- (UIImage *)resizeImage:(UIImage *)image width:(CGFloat)resizedWidth height:(CGFloat)resizedHeight;
+- (UIImage *) takeThumbnail:(NSURL *) url;
 
 @end
 
@@ -114,7 +114,9 @@
 - (NSArray*)viewControllersFromElements:(NSArray*)elements {
   
   NSAssert(elements != nil,@"elements is nil");
-  NSAssert([elements count] > 0,@"elements is empty");
+  
+  //Nothing wrong with not having Instagrams, just display error message
+  //NSAssert([elements count] > 0,@"elements is empty");
   
   NSMutableArray *viewControllers = [NSMutableArray array];
 
@@ -143,7 +145,7 @@
   return viewControllers;
 }
 
--(UIImage *)resizeImage:(UIImage *)image width:(CGFloat)resizedWidth height:(CGFloat)resizedHeight
+- (UIImage *)resizeImage:(UIImage *)image width:(CGFloat)resizedWidth height:(CGFloat)resizedHeight
 {
     UIGraphicsBeginImageContext(CGSizeMake(resizedWidth ,resizedHeight));
     [image drawInRect:CGRectMake(0, 0, resizedWidth, resizedHeight)];
@@ -214,11 +216,11 @@
 }
 
 - (NSUInteger)numberOfColumns {
-  if (UIDeviceOrientationIsPortrait(self.deviceOrientation)) {
-    return VERTICAL_NUM_COLUMNS;
+  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    return IPHONE_NUM_COLUMNS;
   }
   else {
-    return HORIZONTAL_NUM_COLUMNS;
+    return IPAD_NUM_COLUMNS;
   }
 }
 
