@@ -15,9 +15,9 @@
 
 //The retry button can have two functions, retry getting the location or 
 //pictures from Instagram
-#define RETRY_NONE          -1
-#define RETRY_LOCATION_TAG  0
-#define RETRY_INSTAGRAM_TAG 1
+#define RETRY_NONE                  -1
+#define RETRY_CURRENT_LOCATION_TAG  0
+#define RETRY_CHOSEN_LOCATION_TAG   1
 
 @interface ViewController ()
 
@@ -131,7 +131,7 @@
 
 - (IBAction)retryButtonPressed:(id)sender {
   
-  if (self.retryButton.tag == RETRY_INSTAGRAM_TAG) {
+  if (self.retryButton.tag == RETRY_CHOSEN_LOCATION_TAG) {
     if (self.locationSelected) {
       [self locationSelected:self.locationSelectedName 
                atCoordinates:self.locationSelectedCoordinates];
@@ -140,7 +140,7 @@
       [self doReverseGeocoding];
     } 
   }
-  else if (self.retryButton.tag == RETRY_LOCATION_TAG) {
+  else if (self.retryButton.tag == RETRY_CURRENT_LOCATION_TAG) {
     [self getLocation];
   }
   else {
@@ -202,10 +202,10 @@
     NSUInteger tagForButton = RETRY_NONE;
     
     if (self.locationSelected) {
-      tagForButton = RETRY_LOCATION_TAG;
+      tagForButton = RETRY_CHOSEN_LOCATION_TAG;
     }
     else {
-      tagForButton = RETRY_INSTAGRAM_TAG;
+      tagForButton = RETRY_CURRENT_LOCATION_TAG;
     } 
     
     [self showErrorMessage:NSLocalizedString(@"InstagramErrorMessage",@"") 
@@ -246,16 +246,14 @@ fromLocation:(CLLocation *)oldLocation {
     case kCLErrorLocationUnknown:
       [self showErrorMessage:NSLocalizedString(@"LocationUnknownErrorMessage", @"") 
                   showButton:YES 
-               withButtonTag:RETRY_LOCATION_TAG];
+               withButtonTag:RETRY_CURRENT_LOCATION_TAG];
       break;
     default:
       [self showErrorMessage:NSLocalizedString(@"LocationUnknownErrorMessage", @"") 
                   showButton:YES 
-               withButtonTag:RETRY_LOCATION_TAG];
+               withButtonTag:RETRY_CURRENT_LOCATION_TAG];
       break;
   }
-  
-  self.locationSelected = NO;
 }
 
 #pragma mark - 
@@ -305,6 +303,7 @@ fromLocation:(CLLocation *)oldLocation {
   [self hideErrorMessage];
   if ([CLLocationManager locationServicesEnabled]) {
     locationManager_ = [[CLLocationManager alloc]init];
+    self.locationSelected = NO;
     self.locationManager.delegate = self;
     self.locationManager.purpose = 
     NSLocalizedString(@"LocationManagerPurpose", @"");
@@ -320,7 +319,6 @@ fromLocation:(CLLocation *)oldLocation {
     
     [self.placeButton setTitle:NSLocalizedString(@"SearchTitle", @"") 
                       forState:UIControlStateNormal];
-    self.locationSelected = NO;
     self.locationSelectedName = nil;
   }
 }
@@ -345,8 +343,8 @@ fromLocation:(CLLocation *)oldLocation {
 - (void)showErrorMessage:(NSString*)message 
               showButton:(BOOL)showButton 
            withButtonTag:(NSUInteger)buttonTag {
-  NSAssert((buttonTag == RETRY_INSTAGRAM_TAG) || 
-           (buttonTag == RETRY_LOCATION_TAG) || 
+  NSAssert((buttonTag == RETRY_CHOSEN_LOCATION_TAG) || 
+           (buttonTag == RETRY_CURRENT_LOCATION_TAG) || 
            (buttonTag == RETRY_NONE),
            @"unknown tag");
   
