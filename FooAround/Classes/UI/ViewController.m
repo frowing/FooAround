@@ -29,6 +29,11 @@
 @property(nonatomic,retain) UIPopoverController *popover;
 
 @property(nonatomic,assign) BOOL locationSelected;
+@property(nonatomic,retain) NSString *locationSelectedName;
+@property(nonatomic,assign) CLLocationCoordinate2D locationSelectedCoordinates; 
+
+//We are getting too many location updates too quickly, we just need one
+@property(nonatomic,assign) BOOL gotFirstLocation;
 
 - (void)hideChoosePlaceViewController;
 - (void)getLocation;
@@ -44,7 +49,7 @@
 @implementation ViewController
 
 @synthesize placeButton = placeButton_;
-@synthesize navActivity = navActivity_;
+@synthesize navBarActivity = navBarActivity_;
 @synthesize errorMessageLabel = errorMessageLabel_;
 @synthesize retryButton = retryButton_;
 @synthesize gridViewController = gridViewController_;
@@ -54,10 +59,14 @@
 @synthesize geocoder = geocoder_;
 @synthesize popover = popover_;
 @synthesize locationSelected = locationSelected_;
+@synthesize locationSelectedName = locationSelectedName;
+@synthesize locationSelectedCoordinates = locationSelectedCoordinates;
+@synthesize gotFirstLocation = gotFirstLocation_;
+@synthesize bodyActivity = bodyActivity_;
 
 - (void)dealloc {
   [placeButton_ release];
-  [navActivity_ release];
+  [navBarActivity_ release];
   [errorMessageLabel_ release];
   [retryButton_ release];
   [gridViewController_ release];
@@ -66,6 +75,7 @@
   [locationManager_ release];
   [geocoder_ release];
   [popover_ release];
+  [bodyActivity_ release];
   
   [super dealloc];
 }
@@ -98,11 +108,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-      return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-  } else {
-      return YES;
-  }
+  return NO;
 }
 
 - (IBAction)placeButtonPressed:(id)sender {
@@ -126,7 +132,13 @@
 - (IBAction)retryButtonPressed:(id)sender {
   
   if (self.retryButton.tag == RETRY_INSTAGRAM_TAG) {
-    [self doReverseGeocoding];
+    if (self.locationSelected) {
+      [self locationSelected:self.locationSelectedName 
+               atCoordinates:self.locationSelectedCoordinates];
+    }
+    else {
+      [self doReverseGeocoding];
+    } 
   }
   else if (self.retryButton.tag == RETRY_LOCATION_TAG) {
     [self getLocation];
@@ -174,6 +186,7 @@
 #pragma mark MediaHandlerDelegate methods
 
 - (void)media:(NSArray*)media withResult:(Result)result {
+  self.bodyActivity.hidden = YES;
   if (result == Success) {
     if ([media count] > 0) {
       [self showGridViewControllerWithElements:media];
@@ -209,13 +222,17 @@
 - (void)locationManager:(CLLocationManager *)manager 
 didUpdateToLocation:(CLLocation *)newLocation 
 fromLocation:(CLLocation *)oldLocation {
-  [self.locationManager stopUpdatingLocation];
-  [self doReverseGeocoding];
+  if (!self.gotFirstLocation) {
+    self.gotFirstLocation = YES;
+    [self.locationManager stopUpdatingLocation];
+    [self doReverseGeocoding];
+  }  
 }
 
 - (void)locationManager:(CLLocationManager *)manager
        didFailWithError:(NSError *)error {
   [manager stopUpdatingLocation];
+  self.navBarActivity.hidden = YES;
   NSLog(@"Error: %@",[error localizedDescription]);
   switch([error code]) {
     case kCLErrorDenied:
@@ -237,6 +254,7 @@ fromLocation:(CLLocation *)oldLocation {
                withButtonTag:RETRY_LOCATION_TAG];
       break;
   }
+  
   self.locationSelected = NO;
 }
 
@@ -248,13 +266,16 @@ fromLocation:(CLLocation *)oldLocation {
 }
 
 #pragma mark -
-#pragma LocationSelectedDelegate methods 
+#pragma mark LocationSelectedDelegate methods 
 
 - (void)locationSelected:(NSString *)locationName 
            atCoordinates:(CLLocationCoordinate2D)coordinates {
   self.locationSelected = YES;
+  self.locationSelectedName = locationName;
+  self.locationSelectedCoordinates = coordinates;
   [self.gridViewController.view removeFromSuperview];
   self.gridViewController = nil;
+  self.bodyActivity.hidden = NO;
   [self hideErrorMessage];
   [self.placeButton setTitle:locationName forState:UIControlStateNormal];
   [self.mediaHandler mediaForLocation:coordinates];
@@ -263,7 +284,6 @@ fromLocation:(CLLocation *)oldLocation {
 
 - (void)currentLocationSelected {
   self.locationSelected = NO;
-  //TODO: GridViewController doesn't go away
   [self getLocation];
   [self hideChoosePlaceViewController];
 }
@@ -280,19 +300,16 @@ fromLocation:(CLLocation *)oldLocation {
 }
 
 - (void)getLocation {
-  //FIX: If the location is disabled, the grid viewcontroller still shows
-  //TODO: We need to consider the case we were looking at a searched location,
-  //the error message shouldn't appear
   [self.gridViewController.view removeFromSuperview];
   self.gridViewController = nil;
   [self hideErrorMessage];
-  self.navActivity.hidden = NO;
   if ([CLLocationManager locationServicesEnabled]) {
     locationManager_ = [[CLLocationManager alloc]init];
     self.locationManager.delegate = self;
     self.locationManager.purpose = 
     NSLocalizedString(@"LocationManagerPurpose", @"");
-    
+    self.gotFirstLocation = NO;
+    self.navBarActivity.hidden = NO;
     [self.locationManager startUpdatingLocation];
   } 
   else {
@@ -304,23 +321,24 @@ fromLocation:(CLLocation *)oldLocation {
     [self.placeButton setTitle:NSLocalizedString(@"SearchTitle", @"") 
                       forState:UIControlStateNormal];
     self.locationSelected = NO;
+    self.locationSelectedName = nil;
   }
 }
 
 - (void)doReverseGeocoding {
-  self.navActivity.hidden = NO;
+  self.navBarActivity.hidden = NO;
   [self hideErrorMessage];
+  self.bodyActivity.hidden = NO;
   [self.mediaHandler mediaForLocation:self.locationManager.location.coordinate];
   [self.placeButton setTitle:NSLocalizedString(@"LocatingTitle", @"") 
                     forState:UIControlStateNormal];
   [self.geocoder reverseGeocodeLocation:self.locationManager.location 
                       completionHandler:^(NSArray *placemarks, NSError *error){
-                        //TODO: control error
                         CLPlacemark *firstPlacemark = [placemarks objectAtIndex:0];                      
                         [self.placeButton setTitle:firstPlacemark.locality 
                                           forState:UIControlStateNormal];
                         
-                        self.navActivity.hidden = YES;
+                        self.navBarActivity.hidden = YES;
                       }];
 }
 

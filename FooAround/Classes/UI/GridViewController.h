@@ -25,6 +25,4 @@
 
 - (id)initWithElements:(NSArray*)elements 
            andDelegate:(id<GridViewControllerDelegate>) delegate;
-- (void)empty;
-- (void)reload;
 @end

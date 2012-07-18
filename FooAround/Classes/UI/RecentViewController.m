@@ -50,7 +50,12 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  [self setupNavbar];
+  
+  //Some views just need some delay to get properly set up.
+  //The nav bar item title would not display without this
+  [self performSelector:@selector(setupNavbar) 
+             withObject:nil 
+             afterDelay:0.5f];
   self.recentSearchesHandler = [RecentSearchesHandler sharedInstance];
   [self setupTableView];
 }

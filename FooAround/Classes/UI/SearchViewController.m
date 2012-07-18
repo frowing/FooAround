@@ -164,7 +164,6 @@
   [geoCoder geocodeAddressString:self.searchBar.text 
                completionHandler:^(NSArray *placemarks, NSError *error) {
     if (error != nil) {
-      //TODO: show alert error
     }
     else {
       [self removeActivityIndicator];

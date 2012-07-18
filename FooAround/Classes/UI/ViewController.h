@@ -23,7 +23,8 @@ UIAlertViewDelegate>
 @property(nonatomic,retain)IBOutlet UILabel *errorMessageLabel;
 @property(nonatomic,retain)IBOutlet UIButton *retryButton;
 @property(nonatomic,retain)IBOutlet UIButton *placeButton;
-@property(nonatomic,retain)IBOutlet UIActivityIndicatorView *navActivity;
+@property(nonatomic,retain)IBOutlet UIActivityIndicatorView *navBarActivity;
+@property(nonatomic,retain)IBOutlet UIActivityIndicatorView *bodyActivity;
 
 - (IBAction)placeButtonPressed:(id)sender;
 - (IBAction)retryButtonPressed:(id)sender;

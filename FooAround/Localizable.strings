@@ -28,6 +28,8 @@
 
 "LocationUnknownErrorMessage" = "No hemos podido determinar tu localización, ¿Quieres que la intentemos recuperar de nuevo?";
 
+"CloseButtonTitle" = "Cerrar";
+
 "DoneButtonTitle" = "Hecho";
 
 "CancelButtonTitle" = "Cancelar";

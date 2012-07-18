@@ -17,7 +17,7 @@
 
 - (void)setUpNavBarWithName:(NSString*)name;
 - (void)setUpImageViewWithURL:(NSString*)url;
-- (void)doneButtonPressed;
+- (void)closeButtonPressed;
 
 @end
 
@@ -56,7 +56,7 @@
 #pragma mark -
 #pragma mark Private methods
 
-- (void)doneButtonPressed {
+- (void)closeButtonPressed {
   [UIView animateWithDuration:SINGLE_IMAGE_SHOWING_HIDING_TIME animations:^{
     self.alpha = 0.0f;
   } completion:^(BOOL finished) {
@@ -78,13 +78,13 @@
   [[[UINavigationItem alloc]initWithTitle:name] 
    autorelease];
   
-  UIBarButtonItem *doneButton = 
-  [[[UIBarButtonItem alloc]initWithTitle:NSLocalizedString(@"DoneButtonTitle", @"")
+  UIBarButtonItem *closeButton = 
+  [[[UIBarButtonItem alloc]initWithTitle:NSLocalizedString(@"CloseButtonTitle", @"")
                                    style:UIBarButtonItemStyleBordered 
                                   target:self 
-                                  action:@selector(doneButtonPressed)]
+                                  action:@selector(closeButtonPressed)]
    autorelease];
-  navItem.rightBarButtonItem = doneButton;
+  navItem.rightBarButtonItem = closeButton;
   self.navBar.items = [NSArray arrayWithObject:navItem];
   [self addSubview:self.navBar];
 }

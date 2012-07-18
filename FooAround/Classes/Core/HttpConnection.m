@@ -80,8 +80,6 @@
     }
     urlWithParams = [urlWithParams stringByAddingPercentEscapesUsingEncoding:
                      NSASCIIStringEncoding];
-  
-  NSLog(@"urlwithparams %@",urlWithParams);
 
     // Create the request
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlWithParams]];
@@ -116,7 +114,6 @@
     }
     else
     {
-        NSLog(@"Connection cannot be init");
       [self.delegate connection:self requestFailed:Error];
     }
 }

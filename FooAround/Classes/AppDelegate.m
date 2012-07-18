@@ -13,7 +13,6 @@
 
 @synthesize window = _window;
 @synthesize viewController = _viewController;
-@synthesize mediaHandler = mediaHandler_;
 - (void)dealloc
 {
   [_window release];
@@ -68,10 +67,6 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
   // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-- (void)media:(NSArray*)media withResult:(Result)result {
-  NSLog(@"%d",result);
 }
 
 @end

@@ -23,12 +23,9 @@
 
 - (NSArray*)viewControllersFromElements:(NSArray*)elements;
 - (CGSize)sizeForThumbnail;
-- (UIDeviceOrientation)deviceOrientation;
-- (BOOL)isValidOrientation:(UIDeviceOrientation)deviceOrientation;
 - (void)adaptViews;
 - (NSUInteger)numberOfColumns;
 - (UIImage *)resizeImage:(UIImage *)image width:(CGFloat)resizedWidth height:(CGFloat)resizedHeight;
-- (UIImage *) takeThumbnail:(NSURL *) url;
 
 @end
 
@@ -85,7 +82,6 @@
 {
   [super viewDidLoad];
   self.thumbnailViewControllers = [self viewControllersFromElements:elements_];
-  self.orientation = self.deviceOrientation;
   for (ThumbnailViewController *vc in self.thumbnailViewControllers) {
     [self.scrollView addSubview:vc.view];
   }
@@ -188,18 +184,7 @@
     self.scrollView.contentSize =
     CGSizeMake(self.view.frame.size.width, 
                yOffset + thumbnailSize.height + START_Y_COORDINATE);
-    NSLog(@"%@",NSStringFromCGSize(self.scrollView.frame.size));
   }
-}
-
-- (UIDeviceOrientation)deviceOrientation {
-  return [[UIDevice currentDevice]orientation];
-}
-
-- (BOOL)isValidOrientation:(UIDeviceOrientation)deviceOrientation {
-  
-  return  UIDeviceOrientationIsLandscape(deviceOrientation) || 
-  UIDeviceOrientationIsPortrait(deviceOrientation);
 }
 
 - (CGSize)sizeForThumbnail {

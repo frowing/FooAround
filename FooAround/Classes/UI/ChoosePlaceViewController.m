@@ -98,7 +98,6 @@
   self.toolbar.center = 
   CGPointMake(self.view.frame.size.width / 2, 
               self.view.frame.size.height - (self.toolbar.frame.size.height / 2));
-  NSLog(@"%@",NSStringFromCGRect(self.view.frame));
 }
 
 - (void)adjustViewControllers {
