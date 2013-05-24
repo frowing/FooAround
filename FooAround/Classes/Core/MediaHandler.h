@@ -27,5 +27,7 @@
 
 - (id)initWithDelegate:(id<MediaHandlerDelegate>)delegate;
 - (void)mediaForLocation:(CLLocationCoordinate2D)location;
-
+- (void)mediaForLocation:(CLLocationCoordinate2D)location
+            minTimestamp:(NSTimeInterval)minTimeStamp
+            maxTimestamp:(NSTimeInterval)maxTimeStamp;
 @end

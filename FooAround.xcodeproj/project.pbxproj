@@ -31,6 +31,7 @@
 		0FD5D40715AAEBEB00D7A4C8 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD5D40615AAEBEB00D7A4C8 /* Reachability.m */; };
 		0FD5D40D15AAEC8700D7A4C8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD5D40C15AAEC8700D7A4C8 /* SystemConfiguration.framework */; };
 		0FD5D41015AAF47500D7A4C8 /* MediaParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD5D40F15AAF47500D7A4C8 /* MediaParser.m */; };
+		0FD876FC16A34B51005E178C /* AuthenticateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD876FB16A34B51005E178C /* AuthenticateViewController.m */; };
 		0FF1EDF015AF598800B97647 /* GridViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF1EDEF15AF598800B97647 /* GridViewController_iPad.xib */; };
 		0FF1EDF215AF59AA00B97647 /* GridViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF1EDF115AF59AA00B97647 /* GridViewController_iPhone.xib */; };
 		0FF1EDF415AF59F200B97647 /* ThumbnailViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF1EDF315AF59F200B97647 /* ThumbnailViewController_iPhone.xib */; };
@@ -84,6 +85,8 @@
 		0FD5D40C15AAEC8700D7A4C8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0FD5D40E15AAF47500D7A4C8 /* MediaParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaParser.h; sourceTree = "<group>"; };
 		0FD5D40F15AAF47500D7A4C8 /* MediaParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaParser.m; sourceTree = "<group>"; };
+		0FD876FA16A34B51005E178C /* AuthenticateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthenticateViewController.h; sourceTree = "<group>"; };
+		0FD876FB16A34B51005E178C /* AuthenticateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthenticateViewController.m; sourceTree = "<group>"; };
 		0FF1EDEF15AF598800B97647 /* GridViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GridViewController_iPad.xib; sourceTree = "<group>"; };
 		0FF1EDF115AF59AA00B97647 /* GridViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GridViewController_iPhone.xib; sourceTree = "<group>"; };
 		0FF1EDF315AF59F200B97647 /* ThumbnailViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThumbnailViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -227,6 +230,8 @@
 				0FBABBBB15B22E0A00E6DEE9 /* LocationSelectedDelegate.h */,
 				0FBABBBC15B320E600E6DEE9 /* SingleImageView.h */,
 				0FBABBBD15B320E700E6DEE9 /* SingleImageView.m */,
+				0FD876FA16A34B51005E178C /* AuthenticateViewController.h */,
+				0FD876FB16A34B51005E178C /* AuthenticateViewController.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -332,6 +337,7 @@
 				0FBABBAB15B20C3700E6DEE9 /* RecentViewController.m in Sources */,
 				0FBABBBE15B320E700E6DEE9 /* SingleImageView.m in Sources */,
 				0F9611EF15B5FCA300FF4293 /* RecentSearchesHandler.m in Sources */,
+				0FD876FC16A34B51005E178C /* AuthenticateViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,6 +426,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FooAround/FooAround-Prefix.pch";
 				INFOPLIST_FILE = "FooAround/FooAround-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRANK_LIBRARY_SEARCH_PATHS)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"$(FRANK_LDFLAGS)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

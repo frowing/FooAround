@@ -58,7 +58,7 @@ typedef enum
 @protocol HttpConnectionDelegate
 
 - (void)connection:(HttpConnection*)connection 
-   requestFinished:(NSData *) result 
+   requestFinished:(NSData *) result
       withEncoding:(NSStringEncoding) encoding;
 
 - (void)connection:(HttpConnection*)connection

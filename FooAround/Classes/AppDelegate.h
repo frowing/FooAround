@@ -8,14 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+FOUNDATION_EXPORT NSString * const INSTAGRAM_CLIENT_ID;
+
 @class ViewController;
 
 @interface AppDelegate : UIResponder 
 <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
 @property (strong, nonatomic) ViewController *viewController;
+@property(nonatomic,retain)NSString *accessToken;
+
+- (void)authenticate;
 
 
 @end

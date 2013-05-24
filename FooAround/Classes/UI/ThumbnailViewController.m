@@ -88,6 +88,13 @@ NSString * const THUMBNAIL_INFO_KEY   = @"THUMBNAIL_INFO";
   self.imageView.activityIndicatorStyle = UIActivityIndicatorViewStyleGray;
   self.imageView.imageURL = [NSURL URLWithString:self.mediaObject.thumbnailURL];
   [self.view bringSubviewToFront:self.selectionButton];
+    self.selectionButton.isAccessibilityElement = YES;
+    self.selectionButton.accessibilityLabel = @"fuckingButton";
+    self.view.isAccessibilityElement = YES;
+    self.view.accessibilityLabel = @"thumbnail";
+    self.backgroundView.isAccessibilityElement = YES;
+    self.backgroundView.accessibilityLabel = @"fuckingBackgroundView";
+
 }
 
 - (void)viewDidUnload

@@ -80,6 +80,8 @@
     }
     urlWithParams = [urlWithParams stringByAddingPercentEscapesUsingEncoding:
                      NSASCIIStringEncoding];
+    
+    NSLog(@"url %@",urlWithParams);
 
     // Create the request
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlWithParams]];

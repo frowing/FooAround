@@ -8,16 +8,48 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "AuthenticateViewController.h"
+
+#define ACCESS_TOKEN_KEY @"accessTokenKey"
+
+NSString * const INSTAGRAM_CLIENT_ID = @"425e20d41ebe4ec0a2e54bc54b7591c4";
+
+@interface AppDelegate()
+
+
+@end
 
 @implementation AppDelegate
 
+@synthesize accessToken = _accessToken;
 @synthesize window = _window;
 @synthesize viewController = _viewController;
+
 - (void)dealloc
 {
   [_window release];
   [_viewController release];
   [super dealloc];
+}
+
+- (NSString*)accessToken
+{
+  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+  _accessToken = [userDefaults stringForKey:ACCESS_TOKEN_KEY];
+  return _accessToken;
+}
+
+- (void)setAccessToken:(NSString *)accessToken
+{
+  if (_accessToken != nil)
+  {
+    [_accessToken release];
+  }
+  
+  _accessToken = accessToken;
+  NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+  [prefs setObject:accessToken forKey:ACCESS_TOKEN_KEY];
+  [prefs synchronize];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

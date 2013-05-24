@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#import "AppDelegate.h"
+#import "AuthenticateViewController.h"
 #import "ChoosePlaceViewController.h"
 #import "ViewController.h"
 #import "SingleImageView.h"
@@ -19,7 +21,9 @@
 #define RETRY_CURRENT_LOCATION_TAG  0
 #define RETRY_CHOSEN_LOCATION_TAG   1
 
-@interface ViewController ()
+static NSDateComponents *_dateComponents;
+
+@interface ViewController ()<AuthenticateDelegate>
 
 @property(nonatomic,retain) MediaHandler *mediaHandler;
 @property(nonatomic,retain) GridViewController *gridViewController;
@@ -30,9 +34,12 @@
 
 @property(nonatomic,assign) BOOL locationSelected;
 @property(nonatomic,retain) NSString *locationSelectedName;
-@property(nonatomic,assign) CLLocationCoordinate2D locationSelectedCoordinates; 
+@property(nonatomic,assign) CLLocationCoordinate2D locationSelectedCoordinates;
+@property(nonatomic,assign) AppDelegate *appDelegate;
+@property(nonatomic,retain) AuthenticateViewController *authenticateViewController;
 
-//We are getting too many location updates too quickly, we just need one
+//We are getting too many location updates too quickly, we just need one so
+//we use this flag to check that
 @property(nonatomic,assign) BOOL gotFirstLocation;
 
 - (void)hideChoosePlaceViewController;
@@ -43,6 +50,8 @@
            withButtonTag:(NSUInteger)buttonTag;
 - (void)hideErrorMessage;
 - (void)showGridViewControllerWithElements:(NSArray*)elements;
+- (void)initStuff;
+- (void)presentAuthenticationViewController;
 
 @end
 
@@ -63,6 +72,7 @@
 @synthesize locationSelectedCoordinates = locationSelectedCoordinates;
 @synthesize gotFirstLocation = gotFirstLocation_;
 @synthesize bodyActivity = bodyActivity_;
+@synthesize authenticateViewController = authenticateViewController_;
 
 - (void)dealloc {
   [placeButton_ release];
@@ -76,6 +86,7 @@
   [geocoder_ release];
   [popover_ release];
   [bodyActivity_ release];
+  [authenticateViewController_ release];
   
   [super dealloc];
 }
@@ -83,22 +94,24 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+    
+  self.appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
   
-  self.choosePlaceViewController = 
-  [[[ChoosePlaceViewController alloc]init]autorelease];
+  if (_dateComponents == nil)
+  {
+    _dateComponents = [[NSDateComponents alloc]init];
+  }
   
-  self.choosePlaceViewController.delegate = self;
-  self.mediaHandler = 
-  [[[MediaHandler alloc]initWithDelegate:self]autorelease];
-  
-  self.geocoder = [[[CLGeocoder alloc]init] autorelease];
-  
-  [self.placeButton setTitleColor:BUTTON_TEXT_COLOR 
-                         forState:UIControlStateNormal];
-  [self.retryButton setTitleColor:BUTTON_TEXT_COLOR 
-                         forState:UIControlStateNormal];
-  [self.retryButton setTitle:NSLocalizedString(@"RetryButtonTitle", @"") 
-                    forState:UIControlStateNormal];
+  if (self.appDelegate.accessToken)
+  {
+    [self initStuff];
+  }
+  else
+  {
+    [self performSelector:@selector(presentAuthenticationViewController)
+               withObject:nil
+               afterDelay:0.1f];
+  }
 }
 
 - (void)viewDidUnload
@@ -276,7 +289,15 @@ fromLocation:(CLLocation *)oldLocation {
   self.bodyActivity.hidden = NO;
   [self hideErrorMessage];
   [self.placeButton setTitle:locationName forState:UIControlStateNormal];
-  [self.mediaHandler mediaForLocation:coordinates];
+  [_dateComponents setDay:-60];
+  NSDate *twoweeksago = [[NSCalendar currentCalendar] dateByAddingComponents:_dateComponents toDate:[NSDate date] options:0];
+  [_dateComponents setDay:+55];
+  NSDate *weekAgo = [[NSCalendar currentCalendar] dateByAddingComponents:_dateComponents toDate:[NSDate date] options:0];
+  
+  [self.mediaHandler mediaForLocation:coordinates
+                         minTimestamp:twoweeksago.timeIntervalSince1970
+                         maxTimestamp:weekAgo.timeIntervalSince1970
+   ];
   [self hideChoosePlaceViewController];
 }
 
@@ -327,7 +348,15 @@ fromLocation:(CLLocation *)oldLocation {
   self.navBarActivity.hidden = NO;
   [self hideErrorMessage];
   self.bodyActivity.hidden = NO;
-  [self.mediaHandler mediaForLocation:self.locationManager.location.coordinate];
+  [_dateComponents setDay:-30];
+  NSDate *twoweeksago = [[NSCalendar currentCalendar] dateByAddingComponents:_dateComponents toDate:[NSDate date] options:0];
+  [_dateComponents setDay:-25];
+  NSDate *weekAgo = [[NSCalendar currentCalendar] dateByAddingComponents:_dateComponents toDate:[NSDate date] options:0];
+  
+  [self.mediaHandler mediaForLocation:self.locationManager.location.coordinate
+                         minTimestamp:twoweeksago.timeIntervalSince1970
+                         maxTimestamp:weekAgo.timeIntervalSince1970
+   ];
   [self.placeButton setTitle:NSLocalizedString(@"LocatingTitle", @"") 
                     forState:UIControlStateNormal];
   [self.geocoder reverseGeocodeLocation:self.locationManager.location 
@@ -385,4 +414,45 @@ fromLocation:(CLLocation *)oldLocation {
   [self.view addSubview:self.gridViewController.view];
 }
 
+- (void)authenticated:(BOOL)success withAccessToken:(NSString *)accessToken
+{
+  if (success)
+  {
+    self.appDelegate.accessToken = accessToken;
+    [self initStuff];
+  }
+  else
+  {
+    NSLog(@"go fuck yourself");
+  }
+}
+
+- (void)initStuff
+{
+  self.choosePlaceViewController =
+  [[[ChoosePlaceViewController alloc]init]autorelease];
+  
+  self.choosePlaceViewController.delegate = self;
+  self.mediaHandler =
+  [[[MediaHandler alloc]initWithDelegate:self]autorelease];
+  
+  self.geocoder = [[[CLGeocoder alloc]init] autorelease];
+  
+  [self.placeButton setTitleColor:BUTTON_TEXT_COLOR
+                         forState:UIControlStateNormal];
+  [self.retryButton setTitleColor:BUTTON_TEXT_COLOR
+                         forState:UIControlStateNormal];
+  [self.retryButton setTitle:NSLocalizedString(@"RetryButtonTitle", @"")
+                    forState:UIControlStateNormal];
+}
+
+- (void)presentAuthenticationViewController
+{
+  self.authenticateViewController =
+  [[AuthenticateViewController alloc]initWithDelegate:self clientId:INSTAGRAM_CLIENT_ID
+                                       andAccessToken:self.appDelegate.accessToken];
+  [self presentViewController:self.authenticateViewController animated:YES completion:^{
+    
+  }];
+}
 @end
