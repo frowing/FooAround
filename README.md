@@ -1,4 +1,4 @@
 FooAround
 =========
 
-App that helps you find Instagram photos around you and your favorite locations
+First iteration of http://instaroundapp.com
